@@ -272,9 +272,3 @@ def search_legal_precedents(query: str) -> list[dict]:
     CrewAI tool wrapper for precedent search.
     """
     return search_legal_precedents_raw(query)
-
-if __name__ == "__main__":
-    q = "Van Buren v. United States 141 S. Ct. 1648 18 U.S.C. 1030 opinion"
-    hits = search_legal_precedents_raw(q)
-    print("HITS=", len(hits))
-    print(hits[:3])

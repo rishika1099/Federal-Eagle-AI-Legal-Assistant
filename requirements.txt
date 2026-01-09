@@ -1,45 +1,22 @@
-# Core AI Framework
-crewai==1.7.2
-crewai-tools==1.7.2
-
-# CrewAI-compatible pins
-openai==1.83.0
-click==8.1.7
-pydantic==2.11.9
-pydantic-settings==2.10.1
-python-dotenv==1.1.1
-regex==2024.9.11
-tokenizers==0.20.3
-tiktoken==0.8.0
-
-# LangChain Ecosystem (0.3.x line)
-langchain==0.3.27
-langchain-community==0.3.31
-langchain-core==0.3.81
-langchain-text-splitters==0.3.11
-langchain-huggingface==0.3.1
-langchain-openai==0.3.23
-langchain-chroma==0.2.6
-
-# Vector DB (CrewAI expects ~1.1.x)
-chromadb==1.1.1
-
-# Transformers stack (must match tokenizers<0.21)
-transformers==4.46.3
-huggingface-hub==0.33.4
-
-# Fix urllib3 conflict pulled via kubernetes/chromadb deps
-urllib3==2.3.0
-
-# Fix instructor/jiter conflict (if instructor is present transitively)
-jiter==0.10.0
-
-# Embeddings
-sentence-transformers
-
-# Utilities
-tavily-python
-
-# Web Interface
+# Web app
 streamlit==1.41.1
 python-docx==1.1.2
+python-dotenv==1.1.1
+
+# Crew + tools
+crewai
+crewai-tools
+
+# LLM + search
+openai
+tavily-python
+
+# LangChain + Chroma
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+
+# Embeddings (pulls torch/transformers)
+sentence-transformers

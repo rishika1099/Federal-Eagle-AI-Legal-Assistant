@@ -20,10 +20,11 @@ def load_streamlit_secrets():
     except Exception:
         pass
 
-load_streamlit_secrets()
-
 # Load .env reliably even when Streamlit changes working dir
 load_dotenv(dotenv_path=Path(__file__).with_name(".env"))
+
+# Load Streamlit secrets into environment variables
+load_streamlit_secrets()
 
 from docx import Document
 from docx.shared import Pt, Inches
@@ -243,7 +244,7 @@ with st.form("legal_form"):
         height=190,
         placeholder="What happened? Who was involved? Where/when? Any interstate or federal elements?",
     )
-    st.link_button("Open source", url, width='stretch')
+    submitted = st.form_submit_button("🔍 Analyze Case", use_container_width=True)
 
 # Run analysis ONLY on submit 
 if submitted:
@@ -333,7 +334,7 @@ if data:
                         "Why relevant": s.get("why_relevant", ""),
                     }
                 )
-            st.dataframe(rows, width="stretch", hide_index=True)
+            st.dataframe(rows, use_container_width=True, hide_index=True)
 
             for s in statutes:
                 citation = s.get("citation", "USC")
@@ -428,7 +429,7 @@ if data:
                     if relevance:
                         st.markdown(f"**Relevance:** {relevance}")
                     if url:
-                        st.link_button("Open source", url, width='stretch')
+                        st.link_button("Open source", url, use_container_width=True)
 
     # Draft 
     with tabs[4]:
@@ -455,12 +456,12 @@ if data:
                     data=bio,
                     file_name=f"{safe_name}.docx",
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    width="stretch",
+                    use_container_width=True,
                 )
             with col2:
                 st.download_button(
                     "📝 Download Text (.txt)",
                     content,
                     file_name=f"{safe_name}.txt",
-                    width="stretch",
+                    use_container_width=True,
                 )

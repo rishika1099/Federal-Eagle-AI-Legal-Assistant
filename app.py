@@ -230,7 +230,7 @@ with st.sidebar:
     }
 
     for label, text in examples.items():
-        if st.button(label, width='stretch'):
+        if st.button(label, use_container_width=True):
             st.session_state.example = text
 
 # Input 
@@ -243,7 +243,7 @@ with st.form("legal_form"):
         height=190,
         placeholder="What happened? Who was involved? Where/when? Any interstate or federal elements?",
     )
-    submitted = st.form_submit_button("🔍 Analyze Case", width='stretch')
+    st.link_button("Open source", url, width='stretch')
 
 # Run analysis ONLY on submit 
 if submitted:
@@ -333,7 +333,7 @@ if data:
                         "Why relevant": s.get("why_relevant", ""),
                     }
                 )
-            st.dataframe(rows, width='stretch', hide_index=True)
+            st.dataframe(rows, width="stretch", hide_index=True)
 
             for s in statutes:
                 citation = s.get("citation", "USC")

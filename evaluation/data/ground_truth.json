@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "notes": "Hand-labeled ground truth for the 8 scenarios in main.py. Expected USC citations were chosen by reading the scenario facts against the U.S. Code; 'primary' = statute that most directly maps to the conduct, 'secondary' = plausibly-charged statute, 'distractor_avoid' = statutes a naive system might surface but should rank below the primaries.",
+  "cases": [
+    {
+      "id": "computer_fraud",
+      "name": "Computer Fraud and Espionage",
+      "scenario": "An individual accessed a protected government computer system without authorization using stolen credentials. They downloaded classified documents relating to national defense and attempted to transmit them via email to a foreign intelligence contact. The unauthorized access occurred over a two-week period from Virginia, and the attempted transmission was intercepted by federal authorities.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Cybercrime", "Espionage", "National Security"],
+      "expected_federal_hooks": [
+        "protected government computer",
+        "classified national defense information",
+        "transmission to foreign agent",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 1030", "18 U.S.C. § 793", "18 U.S.C. § 798"],
+        "secondary": ["18 U.S.C. § 794", "18 U.S.C. § 641"],
+        "distractor_avoid": ["18 U.S.C. § 1343"]
+      },
+      "expected_search_query_keywords": ["computer fraud", "unauthorized access", "espionage", "classified", "national defense"]
+    },
+    {
+      "id": "wire_fraud",
+      "name": "Wire Fraud Investment Scheme",
+      "scenario": "A person created a fake investment website and sent promotional emails to potential investors across multiple states. They used interstate wire communications to solicit over $500,000 from victims, promising guaranteed 20 percent returns on a cryptocurrency fund that did not exist. The scheme operated for six months before victims reported losses to the FBI.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Fraud", "Securities Fraud"],
+      "expected_federal_hooks": [
+        "interstate wire communications",
+        "interstate email solicitation",
+        "FBI involvement",
+        "scheme to defraud across state lines"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 1343"],
+        "secondary": ["18 U.S.C. § 1341", "18 U.S.C. § 1349", "15 U.S.C. § 78j", "18 U.S.C. § 1956"],
+        "distractor_avoid": ["18 U.S.C. § 1030"]
+      },
+      "expected_search_query_keywords": ["wire fraud", "investment", "scheme to defraud", "interstate"]
+    },
+    {
+      "id": "bank_robbery",
+      "name": "Bank Robbery Federal Property",
+      "scenario": "Two individuals entered a federally-insured bank with firearms, threatened employees and customers, and stole approximately $75,000 in cash. They fled across state lines from California to Nevada and were apprehended three days later during a traffic stop.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Violent Crime", "Bank Robbery"],
+      "expected_federal_hooks": [
+        "federally insured bank",
+        "use of firearms in violent crime",
+        "interstate flight"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 2113"],
+        "secondary": ["18 U.S.C. § 924", "18 U.S.C. § 1073"],
+        "distractor_avoid": ["18 U.S.C. § 1344"]
+      },
+      "expected_search_query_keywords": ["bank robbery", "federally insured", "armed", "firearm"]
+    },
+    {
+      "id": "identity_theft",
+      "name": "Identity Theft Interstate Commerce",
+      "scenario": "Someone used my stolen Social Security number and personal information to open multiple credit card accounts and bank accounts in my name. They made over $50,000 in fraudulent purchases across several states using online shopping sites. I discovered this when I was denied a loan due to damaged credit.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Identity Theft", "Fraud"],
+      "expected_federal_hooks": [
+        "SSN / identity documents",
+        "interstate online commerce",
+        "credit card fraud across state lines"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 1028", "18 U.S.C. § 1028A"],
+        "secondary": ["18 U.S.C. § 1029", "18 U.S.C. § 1343", "18 U.S.C. § 1344"],
+        "distractor_avoid": ["18 U.S.C. § 2113"]
+      },
+      "expected_search_query_keywords": ["identity theft", "Social Security number", "credit card fraud", "aggravated identity theft"]
+    },
+    {
+      "id": "drug_trafficking",
+      "name": "Drug Trafficking Interstate",
+      "scenario": "An individual was caught transporting 50 kilograms of cocaine from Texas to New York using commercial interstate highways. They were stopped at a border checkpoint and the drugs were discovered hidden in vehicle compartments. This is their first offense.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Drug Trafficking", "Controlled Substances"],
+      "expected_federal_hooks": [
+        "interstate transportation",
+        "controlled substance over Schedule II threshold",
+        "federal checkpoint seizure"
+      ],
+      "expected_statutes": {
+        "primary": ["21 U.S.C. § 841", "21 U.S.C. § 846"],
+        "secondary": ["21 U.S.C. § 952", "21 U.S.C. § 848"],
+        "distractor_avoid": ["18 U.S.C. § 1956"]
+      },
+      "expected_search_query_keywords": ["controlled substance", "drug trafficking", "cocaine", "interstate transport"]
+    },
+    {
+      "id": "money_laundering",
+      "name": "Money Laundering Financial Institution",
+      "scenario": "A person established multiple shell companies and used them to process over $2 million in proceeds from illegal gambling operations. They structured deposits to avoid currency reporting requirements and transferred funds through multiple banks across different states to conceal the source.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Money Laundering", "Financial Crime"],
+      "expected_federal_hooks": [
+        "concealment of illicit proceeds",
+        "structuring to evade BSA reporting",
+        "interstate financial transfers"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 1956", "18 U.S.C. § 1957", "31 U.S.C. § 5324"],
+        "secondary": ["31 U.S.C. § 5313", "18 U.S.C. § 1955"],
+        "distractor_avoid": ["18 U.S.C. § 1343"]
+      },
+      "expected_search_query_keywords": ["money laundering", "structuring", "currency transaction report", "illegal gambling proceeds"]
+    },
+    {
+      "id": "kidnapping",
+      "name": "Interstate Kidnapping",
+      "scenario": "An individual abducted a child from a school in Maryland and transported the victim across state lines to Pennsylvania. A ransom demand of $100,000 was sent to the parents via email. The child was recovered unharmed after three days when the suspect was located by federal authorities.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Kidnapping", "Violent Crime"],
+      "expected_federal_hooks": [
+        "interstate transportation of victim",
+        "ransom demand via interstate communication",
+        "federal authority involvement"
+      ],
+      "expected_statutes": {
+        "primary": ["18 U.S.C. § 1201"],
+        "secondary": ["18 U.S.C. § 875", "18 U.S.C. § 1202"],
+        "distractor_avoid": ["18 U.S.C. § 1343"]
+      },
+      "expected_search_query_keywords": ["kidnapping", "ransom", "interstate transport", "child abduction"]
+    },
+    {
+      "id": "tax_evasion",
+      "name": "Tax Evasion and Fraud",
+      "scenario": "A business owner failed to report over $800,000 in income over five years and created false invoices and expense records to claim fraudulent deductions. They also failed to pay employment taxes for 15 employees and kept two sets of books to hide income from the IRS.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": ["Tax", "Fraud"],
+      "expected_federal_hooks": [
+        "failure to report income to IRS",
+        "false records / fraudulent deductions",
+        "unpaid employment taxes"
+      ],
+      "expected_statutes": {
+        "primary": ["26 U.S.C. § 7201", "26 U.S.C. § 7206"],
+        "secondary": ["26 U.S.C. § 7202", "18 U.S.C. § 371"],
+        "distractor_avoid": ["18 U.S.C. § 1956"]
+      },
+      "expected_search_query_keywords": ["tax evasion", "false return", "employment tax", "fraudulent deduction"]
+    }
+  ]
+}

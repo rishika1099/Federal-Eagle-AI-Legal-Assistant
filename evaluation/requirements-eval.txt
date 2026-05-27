@@ -1,0 +1,6 @@
+# Extra deps for the eval harness (on top of repo's requirements.txt)
+tiktoken>=0.7.0          # accurate token counts; otherwise we fall back to char/4 heuristic
+
+# Optional, only needed if you use the synthetic generator or LegalBench adapter
+# openai>=1.40.0
+# datasets>=2.18.0

@@ -3,4 +3,11 @@ secrets.toml
 .streamlit/secrets.toml
 __pycache__/
 .venv/
+.venv-eval/
 *.sqlite3
+
+# Eval / data artifacts (regenerable, large)
+chroma_db/
+usc/
+usc_minimal/
+usc_complete.json

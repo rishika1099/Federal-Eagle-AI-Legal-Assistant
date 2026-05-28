@@ -266,9 +266,33 @@ def search_legal_precedents_raw(query: str) -> list[dict]:
     except Exception:
         return []
 
+def _cached_or_fresh(query: str) -> list[dict]:
+    """Wrap raw search with the SQLite Tavily cache so identical queries return
+    identical results across runs. Stabilizes the precedent agent against
+    Tavily's run-to-run variance.
+    """
+    try:
+        from tools.reliability import get_tavily_cache
+        cache = get_tavily_cache()
+    except Exception:
+        return search_legal_precedents_raw(query)
+
+    params = {
+        "max": int(os.getenv("TAVILY_MAX_RESULTS", "10")),
+        "depth": os.getenv("TAVILY_SEARCH_DEPTH", "advanced"),
+    }
+    hit = cache.get(query, params)
+    if hit is not None:
+        return hit
+    fresh = search_legal_precedents_raw(query)
+    if fresh:
+        cache.set(query, fresh, params)
+    return fresh
+
+
 @tool("Legal Precedent Search Tool")
 def search_legal_precedents(query: str) -> list[dict]:
     """
-    CrewAI tool wrapper for precedent search.
+    CrewAI tool wrapper for precedent search. Cached by query for stability.
     """
-    return search_legal_precedents_raw(query)
+    return _cached_or_fresh(query)

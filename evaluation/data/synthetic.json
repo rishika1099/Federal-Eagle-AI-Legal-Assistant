@@ -1,0 +1,903 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "mail_fraud_scheme",
+      "name": "Mail Fraud Lottery Scam",
+      "scenario": "An individual sent out thousands of letters claiming that recipients had won a lottery they never entered. To claim their 'prize,' recipients were instructed to send a fee via mail to an address in another state. This fraudulent scheme collected over $200,000 before being reported to the authorities.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Mail Fraud"
+      ],
+      "expected_federal_hooks": [
+        "interstate mail communications",
+        "scheme to defraud"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1341"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1343",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "mail fraud",
+        "lottery scam",
+        "interstate scheme"
+      ]
+    },
+    {
+      "id": "bank_fraud",
+      "name": "Bank Fraud with Forged Documents",
+      "scenario": "A person forged identification documents to open a bank account at a federally insured institution and deposited checks that were later discovered to be counterfeit. The account was used to withdraw funds from various states before the bank detected the fraud. The total loss to the bank exceeded $150,000.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Banking Law",
+        "Fraud"
+      ],
+      "expected_federal_hooks": [
+        "federally insured institution",
+        "forged identity documents"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1344"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1028",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2113"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "bank fraud",
+        "forged documents",
+        "federally insured institution"
+      ]
+    },
+    {
+      "id": "wire_tapping",
+      "name": "Illegal Wiretapping Across State Lines",
+      "scenario": "An individual set up equipment to intercept telephone calls between two parties in different states without their consent. This illegal wiretapping operation was discovered after one of the parties filed a complaint with the FBI. The defendant was found to have recorded over 100 conversations.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Privacy Law",
+        "Telecommunications"
+      ],
+      "expected_federal_hooks": [
+        "interstate communications",
+        "FBI involvement"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 2511"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 2512",
+          "18 U.S.C. \u00a7 2701"
+        ],
+        "distractor_avoid": [
+          "47 U.S.C. \u00a7 605"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "wiretapping",
+        "illegal surveillance",
+        "interstate communication"
+      ]
+    },
+    {
+      "id": "cybercrime",
+      "name": "Cybercrime and Identity Theft",
+      "scenario": "A hacker gained unauthorized access to a database of a federally insured bank and stole thousands of Social Security numbers. They sold this information on the dark web to multiple buyers across state lines. The breach affected customers in several states, prompting an investigation by federal authorities.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Cyber Law",
+        "Identity Theft"
+      ],
+      "expected_federal_hooks": [
+        "federally insured institution",
+        "SSN / identity documents"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1030"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1028",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "cybercrime",
+        "identity theft",
+        "federally insured bank"
+      ]
+    },
+    {
+      "id": "drug_possession",
+      "name": "Possession of Controlled Substances",
+      "scenario": "A person was caught transporting a large quantity of a controlled substance, methamphetamine, across state lines. During a traffic stop, law enforcement officers found the drugs hidden in the vehicle's trunk. The investigation revealed that the individual had been making regular trips between states to distribute the drugs.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Drug Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "controlled substance",
+        "interstate transportation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "21 U.S.C. \u00a7 841"
+        ],
+        "secondary": [
+          "21 U.S.C. \u00a7 846",
+          "21 U.S.C. \u00a7 952"
+        ],
+        "distractor_avoid": [
+          "21 U.S.C. \u00a7 860"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "drug possession",
+        "controlled substances",
+        "interstate transport"
+      ]
+    },
+    {
+      "id": "child_pornography",
+      "name": "Distribution of Child Pornography",
+      "scenario": "An individual was found to be distributing child pornography over the internet, including sending files to minors in other states. The investigation led to a federal charge due to the nature of the crime crossing state lines and involving multiple victims. Law enforcement seized computers that contained thousands of illegal images.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Child Exploitation",
+        "Cyber Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate distribution",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 2252"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 2251",
+          "18 U.S.C. \u00a7 1470"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2423"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "child pornography",
+        "distribution",
+        "interstate"
+      ]
+    },
+    {
+      "id": "stolen_property",
+      "name": "Transporting Stolen Goods",
+      "scenario": "A person was arrested while transporting stolen property across state lines, specifically high-end electronics taken from a retail store. The items were found in their vehicle during a routine traffic check. The investigation revealed that the individual had been operating a theft ring.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Theft",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate transport of stolen goods"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 2314"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1951",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2113"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "transporting stolen property",
+        "interstate theft",
+        "theft ring"
+      ]
+    },
+    {
+      "id": "money_laundering",
+      "name": "Money Laundering Operation",
+      "scenario": "An individual was found to be running a money laundering scheme involving proceeds from illegal drug sales. They transferred large sums of money through various bank accounts in different states to conceal the origin of the funds. Federal investigators tracked the transactions as they crossed state lines.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Money Laundering",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate banking transactions",
+        "drug proceeds"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1957",
+          "31 U.S.C. \u00a7 5316"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "money laundering",
+        "drug proceeds",
+        "interstate banking"
+      ]
+    },
+    {
+      "id": "human_trafficking",
+      "name": "Human Trafficking Across State Lines",
+      "scenario": "A suspect was arrested for trafficking individuals for forced labor and sexual exploitation, moving victims across state lines. The investigation revealed that the suspect used fraudulent documentation to facilitate the movement of these individuals. Federal authorities intervened after receiving tips from concerned citizens.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Human Trafficking",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate trafficking",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1591"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1589",
+          "18 U.S.C. \u00a7 1594"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2423"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "human trafficking",
+        "forced labor",
+        "interstate"
+      ]
+    },
+    {
+      "id": "firearms_trafficking",
+      "name": "Firearms Trafficking Across State Lines",
+      "scenario": "A person was arrested for purchasing firearms in one state and selling them illegally in another state without a federal license. The investigation revealed that they were part of a larger trafficking operation that supplied weapons to various criminals across state lines. Federal authorities became involved after a series of violent incidents linked to the firearms.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Firearms Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate firearms trafficking",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 922"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 924",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "firearms trafficking",
+        "illegal sales",
+        "interstate"
+      ]
+    },
+    {
+      "id": "counterfeit_currency",
+      "name": "Counterfeit Currency Operations",
+      "scenario": "A group of individuals was caught producing and distributing counterfeit currency across state lines. They used sophisticated printing techniques to create fake bills, which they circulated in various cities. The operation was dismantled after a federal investigation traced the counterfeit money back to them.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Counterfeiting",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate distribution",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 471"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 474",
+          "18 U.S.C. \u00a7 1960"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "counterfeit currency",
+        "interstate distribution",
+        "federal investigation"
+      ]
+    },
+    {
+      "id": "environmental_crime",
+      "name": "Illegal Dumping of Hazardous Waste",
+      "scenario": "An industrial facility was found to be illegally dumping hazardous waste into a river that flows into multiple states. This action violated federal environmental laws and led to a significant investigation by the EPA. The facility was charged with multiple violations for endangering public health and the environment.",
+      "expected_case_type": "administrative",
+      "expected_legal_domain": [
+        "Environmental Law",
+        "Regulatory Compliance"
+      ],
+      "expected_federal_hooks": [
+        "federal environmental regulations",
+        "interstate waterway"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "42 U.S.C. \u00a7 6928"
+        ],
+        "secondary": [
+          "33 U.S.C. \u00a7 1311",
+          "42 U.S.C. \u00a7 300g"
+        ],
+        "distractor_avoid": [
+          "40 C.F.R. \u00a7 260"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "illegal dumping",
+        "hazardous waste",
+        "EPA violation"
+      ]
+    },
+    {
+      "id": "credit_card_fraud",
+      "name": "Credit Card Fraud Across State Lines",
+      "scenario": "An individual used stolen credit card information to make purchases online from various states, racking up charges of over $100,000. The investigation revealed that the suspect had obtained the information through phishing emails sent to victims nationwide. Federal agents became involved when the victims reported the fraud.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Cyber Crime"
+      ],
+      "expected_federal_hooks": [
+        "interstate commerce",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1029"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1343",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "15 U.S.C. \u00a7 1681"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "credit card fraud",
+        "interstate purchases",
+        "phishing"
+      ]
+    },
+    {
+      "id": "computer_fraud",
+      "name": "Computer Fraud and Abuse",
+      "scenario": "A former employee accessed the company's computer network without authorization to steal sensitive data, including customer information, which they then sold to competitors in different states. This breach of trust and security involved a violation of federal computer fraud laws, leading to significant legal action.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Cyber Law",
+        "Corporate Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate data theft",
+        "federal computer fraud laws"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1030"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 2511",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "47 U.S.C. \u00a7 605"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "computer fraud",
+        "data theft",
+        "interstate"
+      ]
+    },
+    {
+      "id": "trade_secrets",
+      "name": "Theft of Trade Secrets",
+      "scenario": "An employee of a tech company stole proprietary trade secrets and attempted to sell them to a foreign entity. The theft involved transferring data across state lines, violating federal laws designed to protect intellectual property. Federal authorities were alerted after the company noticed suspicious activity.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Intellectual Property",
+        "Corporate Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate transfer of trade secrets",
+        "federal intellectual property laws"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1832"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1831",
+          "15 U.S.C. \u00a7 1125"
+        ],
+        "distractor_avoid": [
+          "15 U.S.C. \u00a7 1114"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "trade secrets theft",
+        "intellectual property",
+        "interstate transfer"
+      ]
+    },
+    {
+      "id": "social_media_fraud",
+      "name": "Social Media Investment Fraud",
+      "scenario": "A person created fake social media accounts promising high returns on investments in cryptocurrency and solicited funds from individuals across multiple states. By the time the scheme was uncovered, the individual had defrauded victims out of nearly $300,000. Federal authorities became involved after numerous complaints were filed.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Securities Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate solicitation",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1343"
+        ],
+        "secondary": [
+          "15 U.S.C. \u00a7 78j",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2113"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "investment fraud",
+        "social media",
+        "interstate scheme"
+      ]
+    },
+    {
+      "id": "securities_fraud",
+      "name": "Securities Fraud Scheme",
+      "scenario": "An individual engaged in a scheme to manipulate stock prices by spreading false information about companies through interstate communications. This fraudulent activity led to significant financial losses for investors across several states, prompting an investigation by the SEC and federal law enforcement.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Securities Law",
+        "Fraud"
+      ],
+      "expected_federal_hooks": [
+        "interstate communications",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "15 U.S.C. \u00a7 78j"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1348",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1341"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "securities fraud",
+        "stock manipulation",
+        "interstate"
+      ]
+    },
+    {
+      "id": "federal_tax_evasion",
+      "name": "Federal Tax Evasion Scheme",
+      "scenario": "A business owner was found to be underreporting income and failing to pay taxes owed to the IRS, using multiple bank accounts across different states to conceal their financial activities. This evasion led to a federal investigation that uncovered a scheme to avoid paying over $500,000 in taxes.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Tax Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "IRS involvement",
+        "interstate financial transactions"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "26 U.S.C. \u00a7 7201"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1956",
+          "26 U.S.C. \u00a7 7206"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "tax evasion",
+        "IRS",
+        "interstate transactions"
+      ]
+    },
+    {
+      "id": "internet_fraud",
+      "name": "Internet Fraud and Phishing",
+      "scenario": "A group of hackers conducted a phishing scheme that tricked individuals across several states into providing their personal and financial information through fake websites. They then used this information to commit identity theft and fraud, leading to federal charges.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Cyber Law",
+        "Fraud"
+      ],
+      "expected_federal_hooks": [
+        "interstate phishing scheme",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1030"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1343",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "47 U.S.C. \u00a7 605"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "internet fraud",
+        "phishing",
+        "identity theft"
+      ]
+    },
+    {
+      "id": "extortion",
+      "name": "Extortion through Threats",
+      "scenario": "An individual threatened to release sensitive information about a business to the public unless they received a large payment. The threats were communicated through interstate phone calls and emails, which led to federal charges of extortion. The victim reported the incident to the FBI.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Extortion",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate communications",
+        "FBI involvement"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1951"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 875"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1956"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "extortion",
+        "threats",
+        "interstate communication"
+      ]
+    },
+    {
+      "id": "federal_election_fraud",
+      "name": "Federal Election Fraud",
+      "scenario": "A group of individuals was accused of tampering with voting machines during the federal election, attempting to alter results in multiple states. The FBI launched an investigation after receiving reports of irregularities. The case raised serious concerns about election integrity.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Election Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "federal election laws",
+        "interstate voting"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "52 U.S.C. \u00a7 10307"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 371",
+          "52 U.S.C. \u00a7 30121"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "election fraud",
+        "voting tampering",
+        "federal investigation"
+      ]
+    },
+    {
+      "id": "wire_fraud_investment",
+      "name": "Wire Fraud in Investment Scheme",
+      "scenario": "An individual was charged with wire fraud for soliciting investments in a phony real estate venture through interstate calls and emails. They promised high returns but used the funds for personal expenses instead. Victims from multiple states reported their losses, prompting a federal investigation.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Securities Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate wire communications",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1343"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1341",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "15 U.S.C. \u00a7 78j"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "wire fraud",
+        "investment scheme",
+        "interstate communication"
+      ]
+    },
+    {
+      "id": "drug_distribution",
+      "name": "Distribution of Controlled Substances",
+      "scenario": "An individual was charged with distributing controlled substances, specifically cocaine, across state lines. They were caught during a traffic stop when law enforcement discovered packages containing the drugs. This led to a federal investigation due to the nature of the distribution involving multiple states.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Drug Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "controlled substance",
+        "interstate distribution"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "21 U.S.C. \u00a7 841"
+        ],
+        "secondary": [
+          "21 U.S.C. \u00a7 846",
+          "21 U.S.C. \u00a7 952"
+        ],
+        "distractor_avoid": [
+          "21 U.S.C. \u00a7 860"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "drug distribution",
+        "controlled substances",
+        "interstate transport"
+      ]
+    },
+    {
+      "id": "illegal_gambling",
+      "name": "Illegal Interstate Gambling Operation",
+      "scenario": "A person was running an illegal gambling operation that took bets from individuals in multiple states through a website. Federal authorities became involved when they received complaints about the operation, which was violating federal laws regulating gambling across state lines.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Gambling Law",
+        "Criminal Law"
+      ],
+      "expected_federal_hooks": [
+        "interstate gambling",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1955"
+        ],
+        "secondary": [
+          "15 U.S.C. \u00a7 6301",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "illegal gambling",
+        "interstate bets",
+        "federal investigation"
+      ]
+    },
+    {
+      "id": "false_claims",
+      "name": "False Claims Against the Government",
+      "scenario": "A contractor submitted false claims for reimbursement to a federal agency, billing for services that were never rendered. The fraudulent claims were submitted over several months, affecting multiple government contracts. The investigation by the Department of Justice revealed a scheme to defraud the government.",
+      "expected_case_type": "civil",
+      "expected_legal_domain": [
+        "Fraud",
+        "Government Contracts"
+      ],
+      "expected_federal_hooks": [
+        "federal agency fraud",
+        "false claims"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "31 U.S.C. \u00a7 3729"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 287",
+          "31 U.S.C. \u00a7 3730"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1956"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "false claims",
+        "government fraud",
+        "contractor reimbursement"
+      ]
+    },
+    {
+      "id": "money_lending_fraud",
+      "name": "Fraudulent Money Lending Scheme",
+      "scenario": "An individual operated a fraudulent money lending business online, charging exorbitant fees and interest rates to borrowers across multiple states. Many victims reported that they were unable to repay the debts and faced harassment. The case was taken up by federal authorities due to the nature of the interstate lending activity.",
+      "expected_case_type": "civil",
+      "expected_legal_domain": [
+        "Consumer Protection",
+        "Fraud"
+      ],
+      "expected_federal_hooks": [
+        "interstate lending",
+        "federal consumer protection laws"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "15 U.S.C. \u00a7 1692"
+        ],
+        "secondary": [
+          "15 U.S.C. \u00a7 1601",
+          "15 U.S.C. \u00a7 1679"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1956"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "money lending fraud",
+        "interstate loans",
+        "consumer protection"
+      ]
+    },
+    {
+      "id": "e-commerce_fraud",
+      "name": "E-Commerce Fraud Scheme",
+      "scenario": "An individual created a fake e-commerce website, selling nonexistent products and taking payments from customers across several states. The scheme defrauded consumers out of thousands of dollars before being shut down by federal authorities. Investigators traced the payments back to the fraudulent website.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Cyber Crime"
+      ],
+      "expected_federal_hooks": [
+        "interstate commerce",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1343"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 1956",
+          "15 U.S.C. \u00a7 45"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 2113"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "e-commerce fraud",
+        "fake website",
+        "interstate scheme"
+      ]
+    },
+    {
+      "id": "telemarketing_fraud",
+      "name": "Telemarketing Fraud Scheme",
+      "scenario": "A telemarketing company was found to be scamming individuals across the country, falsely claiming they had won prizes and demanding payment for taxes and fees. The operation involved interstate phone calls and resulted in significant financial losses for victims. Federal authorities initiated an investigation after receiving numerous complaints.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Fraud",
+        "Consumer Protection"
+      ],
+      "expected_federal_hooks": [
+        "interstate communications",
+        "federal investigation"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "18 U.S.C. \u00a7 1341"
+        ],
+        "secondary": [
+          "47 U.S.C. \u00a7 227",
+          "18 U.S.C. \u00a7 1956"
+        ],
+        "distractor_avoid": [
+          "15 U.S.C. \u00a7 45"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "telemarketing fraud",
+        "prize scam",
+        "interstate calls"
+      ]
+    },
+    {
+      "id": "foreign_influence",
+      "name": "Foreign Influence on Federal Elections",
+      "scenario": "A foreign entity was accused of attempting to influence federal elections by providing illegal campaign contributions to candidates in multiple states. The scheme was uncovered during a federal investigation into suspicious financial transactions linked to the elections.",
+      "expected_case_type": "criminal",
+      "expected_legal_domain": [
+        "Election Law",
+        "Campaign Finance"
+      ],
+      "expected_federal_hooks": [
+        "federal elections",
+        "foreign contributions"
+      ],
+      "expected_statutes": {
+        "primary": [
+          "52 U.S.C. \u00a7 30121"
+        ],
+        "secondary": [
+          "18 U.S.C. \u00a7 371",
+          "52 U.S.C. \u00a7 30109"
+        ],
+        "distractor_avoid": [
+          "18 U.S.C. \u00a7 1951"
+        ]
+      },
+      "expected_search_query_keywords": [
+        "foreign influence",
+        "federal elections",
+        "illegal contributions"
+      ]
+    }
+  ]
+}

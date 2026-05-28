@@ -11,3 +11,6 @@ chroma_db/
 usc/
 usc_minimal/
 usc_complete.json
+
+# Runtime logs
+logs/

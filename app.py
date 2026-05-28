@@ -237,6 +237,32 @@ with st.sidebar:
 # Input 
 default_text = st.session_state.get("example", "") or st.session_state.get("last_input", "")
 
+# Public-use safety controls (kill switch, mandatory disclaimer, rate limit)
+from tools.reliability import is_enabled, disabled_message, SessionRateLimiter
+from tools.safety import check_input
+from tools.observability import new_run, get_logger, StageTimer
+
+if "session_id" not in st.session_state:
+    import uuid
+    st.session_state.session_id = uuid.uuid4().hex
+if "_rate_limiter" not in st.session_state:
+    st.session_state._rate_limiter = SessionRateLimiter()
+
+if not is_enabled():
+    st.error(f"🛑 {disabled_message()}")
+    st.stop()
+
+# Mandatory disclaimer acknowledgement (a public legal tool needs this)
+st.markdown(
+    "> ⚠️ **Educational tool only.** Federal Eagle does not provide legal advice. "
+    "If you face a real legal matter, please consult a licensed attorney in your jurisdiction."
+)
+ack = st.checkbox(
+    "I understand this is an educational tool, not legal advice, and I will consult a lawyer for real matters.",
+    value=False,
+    key="disclaimer_ack",
+)
+
 with st.form("legal_form"):
     user_input = st.text_area(
         "📝 Describe your federal legal issue:",
@@ -246,17 +272,54 @@ with st.form("legal_form"):
     )
     submitted = st.form_submit_button("🔍 Analyze Case", use_container_width=True)
 
-# Run analysis ONLY on submit 
+# Run analysis ONLY on submit
 if submitted:
+    if not ack:
+        st.warning("⚠️ Please acknowledge the educational-use disclaimer above before submitting.")
+        st.stop()
     if not user_input.strip():
         st.warning("⚠️ Please enter a legal issue to analyze.")
     else:
+        # Rate limit per session
+        allowed, remaining, retry_after = st.session_state._rate_limiter.check(st.session_state.session_id)
+        if not allowed:
+            st.error(
+                f"🛑 Rate limit reached. You can submit another analysis in about {retry_after} seconds."
+            )
+            st.stop()
+
+        # Allocate a fresh run_id and logger for this analysis
+        run_id = new_run(label=f"streamlit_{st.session_state.session_id[:8]}")
+        log = get_logger(run_id)
+        log("request.received", payload={
+            "session_id": st.session_state.session_id,
+            "input_chars": len(user_input),
+            "remaining_quota": remaining,
+        })
+
+        # Safety gates BEFORE we spend a single token
+        decision = check_input(user_input)
+        log("safety.decision", payload=decision.as_log_payload())
+        if not decision.allowed:
+            st.error(
+                f"🛑 Federal Eagle cannot analyze that input.\n\n**Reason:** {decision.reason}\n\n"
+                "If you are in immediate danger, please contact local authorities. "
+                "For mental health support in the U.S., dial 988."
+            )
+            st.stop()
+        clean_input = decision.sanitized_input or user_input
+        if decision.category == "injection_redacted":
+            st.info("ℹ️ Detected and redacted prompt-injection patterns in your input.")
+
         st.session_state.example = ""
         st.session_state.last_input = user_input
+        st.session_state.last_run_id = run_id
 
         with st.spinner("Running analysis…"):
-            result = legal_assistant_crew.kickoff(inputs={"user_input": user_input})
+            with StageTimer(log, "crew", payload={"input_chars": len(clean_input)}):
+                result = legal_assistant_crew.kickoff(inputs={"user_input": clean_input})
             raw_result = str(result)
+            log("crew.raw_output", payload={"chars": len(raw_result)})
 
         try:
             data = safe_json_loads(raw_result)
@@ -274,10 +337,15 @@ if submitted:
                         upstream_top = []
                 if isinstance(data, dict) and upstream_top:
                     data = repair_drafter_excerpts(data, upstream_top)
-            except Exception:
-                pass  # Repair is best-effort; never blocks the UI.
+                    log("drafter.excerpts_repaired", payload={
+                        "n_repaired": data.get("__excerpts_repaired__", 0),
+                    })
+            except Exception as e:
+                log("drafter.repair_failed", payload={"error": str(e)}, level="warn")
             st.session_state.analysis_data = data
+            log("request.completed", payload={"ok": True})
         except json.JSONDecodeError as je:
+            log("error.invalid_json", payload={"error": str(je)}, level="error")
             st.error(f"❌ Model returned invalid JSON: {je}")
             st.code(raw_result, language="text")
             st.session_state.analysis_data = None

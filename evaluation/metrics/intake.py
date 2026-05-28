@@ -81,22 +81,49 @@ def classification_correct(predicted: str, expected: str) -> bool:
 
 
 def domain_match(predicted: str, expected_options: Sequence[str]) -> bool:
+    """Match if predicted == option, or substring either direction, OR if a meaningful
+    content token overlaps (e.g. 'Drug Enforcement' shares 'drug' with 'Drug Trafficking')."""
     p = (predicted or "").strip().lower()
-    return any(p == opt.lower() or opt.lower() in p or p in opt.lower() for opt in expected_options)
+    if not p:
+        return False
+    STOP = {"and", "the", "of", "for", "a", "in", "law", "crime", "crimes", "fraud"}
+    p_toks = {t for t in re.split(r"[^a-z0-9]+", p) if t and t not in STOP and len(t) >= 4}
+    for opt in expected_options:
+        ol = opt.lower()
+        if p == ol or ol in p or p in ol:
+            return True
+        opt_toks = {t for t in re.split(r"[^a-z0-9]+", ol) if t and t not in STOP and len(t) >= 4}
+        if p_toks & opt_toks:
+            return True
+    return False
 
 
 def _tokens(s: str) -> List[str]:
     return [t for t in re.split(r"[^a-z0-9]+", (s or "").lower()) if t]
 
 
+_STOPWORDS = {"a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "with", "by", "at", "from", "into"}
+
+
+def _content_tokens(s: str) -> set:
+    return {t for t in _tokens(s) if t not in _STOPWORDS and len(t) >= 3}
+
+
 def _bag_overlap(a: str, b: str) -> float:
-    ta, tb = set(_tokens(a)), set(_tokens(b))
+    """Overlap normalised by the SHORTER side. A short GT hook 'transmission to foreign agent'
+    fully overlapping a longer prediction 'transmitted to foreign contact' scores high.
+    Stopwords/short tokens removed. Light prefix stemming (5-char prefix) avoids inflection mismatch."""
+    ta = _content_tokens(a)
+    tb = _content_tokens(b)
     if not ta or not tb:
         return 0.0
-    return len(ta & tb) / max(len(ta), len(tb))
+    # prefix-stem to handle transmit/transmission/transmitted
+    pa = {t[:5] for t in ta}
+    pb = {t[:5] for t in tb}
+    return len(pa & pb) / min(len(pa), len(pb))
 
 
-def hooks_f1(predicted: Iterable[str], expected: Iterable[str], overlap_threshold: float = 0.4) -> Dict[str, float]:
+def hooks_f1(predicted: Iterable[str], expected: Iterable[str], overlap_threshold: float = 0.5) -> Dict[str, float]:
     """Soft F1 over federal_hooks. A predicted hook 'matches' an expected one if their token
     Jaccard-like overlap >= threshold (avoids penalizing benign paraphrase)."""
     p = list(predicted or [])

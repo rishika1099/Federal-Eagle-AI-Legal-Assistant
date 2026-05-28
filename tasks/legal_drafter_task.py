@@ -24,7 +24,10 @@ legal_drafter_task = Task(
         "- Statutes: ONLY use usc_section_task.top_statutes as your source of citations/excerpts/metadata.\n"
         "- Do NOT invent citations or statute text.\n"
         "- Use 3–5 unique statutes max (dedupe by citation).\n"
-        "- Statute excerpt must be copied/trimmed from provided excerpt/content and be <= 600 chars.\n"
+        "- Statute excerpt MUST be a verbatim contiguous substring of the upstream excerpt/content.\n"
+        "  Do NOT paraphrase, summarize, or rewrite. If the upstream text is too long, choose a contiguous\n"
+        "  span that fits in <= 600 chars. The first ~60 characters of your excerpt MUST appear verbatim\n"
+        "  somewhere in the upstream excerpt for that statute.\n"
         "- Disclaimer is UI-only and MUST NOT appear inside draft_document.content.\n\n"
 
         "PRECEDENTS (IMPORTANT):\n"

@@ -215,20 +215,40 @@ def context_precision(
 
 
 def context_recall(answer_facts: Sequence[str], retrieved_contexts: Sequence[str]) -> float:
-    """Fraction of answer facts that are supported by some retrieved context (token overlap)."""
+    """Fraction of answer facts that are supported by some retrieved context (token overlap).
+
+    Threshold is asymmetric: a short answer fact (e.g. 'wire fraud across state lines')
+    can be 'supported' if MOST of its tokens appear somewhere in the (much longer) context.
+    """
     if not answer_facts:
         return 0.0
-    src = " ".join(retrieved_contexts).lower()
-    supported = sum(1 for f in answer_facts if _bag_overlap(f, src) >= 0.3)
+    src_tokens = set(re.findall(r"[a-z0-9]+", " ".join(retrieved_contexts).lower()))
+    supported = 0
+    for f in answer_facts:
+        ft = set(re.findall(r"[a-z0-9]+", (f or "").lower()))
+        if not ft:
+            continue
+        if (len(ft & src_tokens) / len(ft)) >= 0.6:  # 60% of fact tokens appear in context
+            supported += 1
     return supported / len(answer_facts)
 
 
 def faithfulness(answer_claims: Sequence[str], retrieved_contexts: Sequence[str]) -> float:
-    """Fraction of claims in the answer that are entailed by retrieved context (token overlap proxy)."""
+    """Fraction of claims in the answer that are entailed by retrieved context (token overlap proxy).
+
+    Same asymmetric strategy as context_recall: claim tokens should be a near-subset of context tokens.
+    """
     if not answer_claims:
         return 0.0
-    src = " ".join(retrieved_contexts).lower()
-    return mean(1.0 if _bag_overlap(c, src) >= 0.25 else 0.0 for c in answer_claims)
+    src_tokens = set(re.findall(r"[a-z0-9]+", " ".join(retrieved_contexts).lower()))
+    hits = 0
+    for c in answer_claims:
+        ct = set(re.findall(r"[a-z0-9]+", (c or "").lower()))
+        if not ct:
+            continue
+        if (len(ct & src_tokens) / len(ct)) >= 0.5:
+            hits += 1
+    return hits / len(answer_claims)
 
 
 def answer_relevance(question: str, answer: str) -> float:

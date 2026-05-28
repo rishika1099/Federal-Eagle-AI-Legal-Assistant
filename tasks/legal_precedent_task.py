@@ -23,7 +23,9 @@ legal_precedent_task = Task(
         "HOW TO SEARCH (build 2–3 queries total):\n"
         "1) Use primary_issue + 1 USC citation (if available).\n"
         "2) Use primary_issue + 'Supreme Court' (if issue is broad/important).\n"
-        "3) Optional: use primary_issue + 'circuit' or 'CourtListener opinion'.\n\n"
+        "3) Optional: use primary_issue + 'circuit opinion CourtListener' to surface non-SCOTUS opinions,\n"
+        "   but ONLY when the issue is well-developed at the Circuit level (e.g., drug trafficking,\n"
+        "   immigration, employment). For purely SCOTUS-defined doctrines, skip this query.\n\n"
 
         "Query templates (pick what fits):\n"
         '  - "<primary_issue> <USC citation> Supreme Court"\n'
@@ -33,7 +35,7 @@ legal_precedent_task = Task(
         '  - "<primary_issue> <USC citation> site:law.justia.com/cases"\n\n'
 
         "SELECTION RULES (STRICT):\n"
-        "- Prefer Supreme Court, then Circuit Courts.\n"
+        "- Prefer Supreme Court, then Circuit Courts. Tier diversity is a plus but not required.\n"
         "- Only accept results that clearly look like a CASE / OPINION page.\n"
         "  Minimum signal: title/snippet has 'v.' OR a reporter-like string (e.g., 'U.S.', 'S. Ct.', 'F.3d', 'F. Supp.').\n"
         "- Exclude obvious non-opinion materials (briefs, amicus, petitions, dockets, law review articles).\n"

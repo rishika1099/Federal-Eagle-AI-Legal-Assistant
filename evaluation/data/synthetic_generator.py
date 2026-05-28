@@ -1,14 +1,32 @@
-"""Generate synthetic labeled eval scenarios with an LLM.
+"""Generate synthetic labeled eval scenarios with an LLM, or adapt LegalBench rows.
 
-Use this AFTER you have an OpenAI key set in the environment. It produces
-additional cases in the same shape as ground_truth.json so the existing
-metrics work unchanged.
+Two ground-truth options live here so they share the same output shape as
+evaluation/data/ground_truth.json.
 
-WARNING: LLM-generated labels are a weaker signal than hand labels. Use
-synthetic data for trend tracking / variance estimation, not for headline numbers.
+A) SYNTHETIC LLM GENERATION (this script's default behaviour)
+   Use this AFTER you have an OpenAI key set in the environment.
+   WARNING: LLM-generated labels are a weaker signal than hand labels. Use
+   synthetic data for trend tracking / variance estimation, not for headline numbers.
 
-Usage:
-    python -m evaluation.data.synthetic_generator --n 25 --seed-cases identity_theft,wire_fraud
+   Usage:
+       python -m evaluation.data.synthetic_generator --n 25 --seed-cases identity_theft,wire_fraud
+
+B) LEGALBENCH ADAPTER  (call convert_legalbench_row from a small script)
+   LegalBench (https://hazyresearch.stanford.edu/legalbench/) has ~160 tasks.
+   Most are short classification rather than fact-pattern -> statute lookup, so
+   only a subset maps cleanly. Best fits for Federal Eagle:
+     - `citation_prediction_classification` / `citation_prediction_open`
+       (closest to USC retrieval: given a holding, predict the cited statute)
+     - `definition_classification` / `definition_extraction` (elements analysis)
+     - `rule_qa` (drafter's why_relevant claims)
+
+   Example loader:
+       from datasets import load_dataset
+       from evaluation.data.synthetic_generator import convert_legalbench_row
+       ds = load_dataset("nguha/legalbench", "citation_prediction_classification", split="test")
+       cases = [convert_legalbench_row(r, "citation_prediction_classification", i)
+                for i, r in enumerate(ds)]
+       # write cases to evaluation/data/legalbench.json — same shape as ground_truth.json.
 """
 from __future__ import annotations
 
@@ -60,6 +78,24 @@ def generate(n: int, seeds: list[str]) -> list[dict]:
                 return v
         return [data]
     return data
+
+
+def convert_legalbench_row(row: dict, task: str, idx: int) -> dict:
+    """Convert one LegalBench HuggingFace row to ground_truth.json case-shape."""
+    return {
+        "id": f"lb_{task}_{idx}",
+        "name": f"LegalBench {task}",
+        "scenario": row.get("text", "") or row.get("question", ""),
+        "expected_case_type": "unclear",
+        "expected_legal_domain": [task.replace("_", " ").title()],
+        "expected_federal_hooks": [],
+        "expected_statutes": {
+            "primary": [row["answer"]] if "answer" in row else [],
+            "secondary": [],
+            "distractor_avoid": [],
+        },
+        "expected_search_query_keywords": [],
+    }
 
 
 def main():

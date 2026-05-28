@@ -259,7 +259,24 @@ if submitted:
             raw_result = str(result)
 
         try:
-            st.session_state.analysis_data = safe_json_loads(raw_result)
+            data = safe_json_loads(raw_result)
+            # Deterministic excerpt repair: replace any drafter-paraphrased statute
+            # excerpts with verbatim substrings of upstream USC content. No LLM cost.
+            try:
+                from tools.usc_sections_search_tool import repair_drafter_excerpts
+                usc_out = getattr(result, "tasks_output", None)
+                upstream_top: list = []
+                if usc_out and len(usc_out) >= 2:
+                    usc_raw = getattr(usc_out[1], "raw", None) or str(usc_out[1])
+                    try:
+                        upstream_top = (safe_json_loads(usc_raw) or {}).get("top_statutes", []) or []
+                    except Exception:
+                        upstream_top = []
+                if isinstance(data, dict) and upstream_top:
+                    data = repair_drafter_excerpts(data, upstream_top)
+            except Exception:
+                pass  # Repair is best-effort; never blocks the UI.
+            st.session_state.analysis_data = data
         except json.JSONDecodeError as je:
             st.error(f"❌ Model returned invalid JSON: {je}")
             st.code(raw_result, language="text")

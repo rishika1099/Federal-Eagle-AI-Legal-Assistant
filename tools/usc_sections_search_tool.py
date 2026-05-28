@@ -11,17 +11,75 @@ load_dotenv()
 
 _PERSIST_DIR = os.getenv("PERSIST_DIRECTORY_PATH", "./chroma_db")
 _COLLECTION = os.getenv("USC_COLLECTION_NAME", "usc_complete")
-_TOP_K = int(os.getenv("USC_SEARCH_TOP_K", "5"))
+_TOP_K = int(os.getenv("USC_SEARCH_TOP_K", "8"))
 _LEXICAL_K = int(os.getenv("USC_LEXICAL_K", "5"))
 
 _embeddings: Optional[HuggingFaceEmbeddings] = None
 _vectordb: Optional[Chroma] = None
 
-# Citation parsing for direct lookup
+# Citation parsing for direct lookup AND for excerpt repair (below)
 _CITATION_RE = re.compile(
-    r"(\d+[A-Za-z]?)\s*U\.?\s*S\.?\s*C\.?\s*(?:§|sec(?:tion)?)?\s*(\d+[A-Za-z\-]*)",
+    r"(\d+[A-Za-z]?)\s*U\.?\s*S\.?\s*C\.?\s*(?:§|sec(?:tion)?|s\.)?\s*(\d+[A-Za-z\-]*)",
     re.IGNORECASE,
 )
+
+
+def _normalize_citation(citation: str) -> str:
+    m = _CITATION_RE.search(citation or "")
+    if not m:
+        return (citation or "").strip()
+    return f"{m.group(1)} U.S.C. § {m.group(2)}"
+
+
+def _pick_excerpt(content: str, max_chars: int = 600) -> str:
+    """Return a contiguous substring up to max_chars, preferring the start of the
+    statute body ('§ NNN.') over the document header lines added by the builder."""
+    if not content:
+        return ""
+    text = content.replace("\n", " ")
+    m = re.search(r"§\s*\d+[A-Za-z\-]*\.", text)
+    start = m.start() if m else 0
+    return text[start : start + max_chars].strip()
+
+
+def repair_drafter_excerpts(drafter_output: Dict, usc_top_statutes: List[Dict]) -> Dict:
+    """Deterministic post-processor: replace each drafter statute's excerpt with a
+    verbatim contiguous substring of the upstream USC content.
+
+    The drafter agent is instructed to copy excerpts verbatim, but in practice it
+    paraphrases — a hallucination risk in legal output. This swaps in the real
+    text. No extra LLM call. Statutes whose citation can't be matched upstream
+    are left unchanged and marked __repaired__=False.
+    """
+    if not isinstance(drafter_output, dict):
+        return drafter_output
+    statutes = drafter_output.get("statutes")
+    if not isinstance(statutes, list):
+        return drafter_output
+
+    upstream_by_cite: Dict[str, Dict] = {}
+    for s in usc_top_statutes or []:
+        cite = _normalize_citation(s.get("citation", ""))
+        if cite:
+            upstream_by_cite[cite] = s
+
+    repaired = 0
+    for st in statutes:
+        if not isinstance(st, dict):
+            continue
+        src = upstream_by_cite.get(_normalize_citation(st.get("citation", "")))
+        if not src:
+            st["__repaired__"] = False
+            continue
+        new_excerpt = _pick_excerpt(src.get("content") or src.get("excerpt") or "")
+        if new_excerpt:
+            st["excerpt"] = new_excerpt
+            st["__repaired__"] = True
+            repaired += 1
+        else:
+            st["__repaired__"] = False
+    drafter_output["__excerpts_repaired__"] = repaired
+    return drafter_output
 
 
 def _get_vectordb() -> Chroma:

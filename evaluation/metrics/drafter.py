@@ -97,9 +97,14 @@ def excerpt_substring_grounding(
 ) -> Dict[str, float]:
     """For each drafter excerpt, check whether a long substring (>= min_overlap_ratio of its length)
     appears in the corresponding upstream excerpt/content. Catches paraphrase-as-quote.
+
+    Both sides are tokenised the same way (lowercased word tokens joined by single spaces) so
+    punctuation/whitespace differences don't break the substring check.
     """
     upstream_by_cite = {
-        normalize_citation(s.get("citation", "")): (s.get("excerpt") or s.get("content") or "")
+        normalize_citation(s.get("citation", "")): _normalize_for_substring(
+            (s.get("excerpt") or s.get("content") or "")
+        )
         for s in upstream_top_statutes or []
     }
     drafter_list = list(drafter_statutes or [])
@@ -116,7 +121,6 @@ def excerpt_substring_grounding(
         if not src:
             continue
         checked += 1
-        # crude n-gram check
         ngrams = _ngrams(excerpt, n=8)
         if not ngrams:
             continue
@@ -124,6 +128,12 @@ def excerpt_substring_grounding(
         if hit / len(ngrams) >= min_overlap_ratio:
             grounded += 1
     return {"excerpt_grounding": (grounded / checked) if checked else 0.0, "n_checked": checked}
+
+
+def _normalize_for_substring(text: str) -> str:
+    """Canonicalise text to lowercase word-tokens joined by single spaces, so substring
+    lookups aren't broken by punctuation/whitespace differences between sources."""
+    return " ".join(re.findall(r"\w+", (text or "").lower()))
 
 
 def _ngrams(text: str, n: int = 8) -> List[str]:

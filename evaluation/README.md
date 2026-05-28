@@ -1,4 +1,4 @@
-# Federal Eagle — Evaluation Harness
+# Federal Eagle, Evaluation Harness
 
 This `evaluation/` package gives Federal Eagle an end-to-end evaluation suite covering all four agents plus cost / latency. It runs with **no API keys or vector DB** via a deterministic mock pipeline, then you can switch flags to evaluate the real CrewAI pipeline when keys are wired up.
 
@@ -8,8 +8,7 @@ This `evaluation/` package gives Federal Eagle an end-to-end evaluation suite co
 evaluation/
 ├── data/
 │   ├── ground_truth.json         # 8 hand-labeled cases from main.py
-│   ├── synthetic_generator.py    # LLM-generated extra cases (needs OPENAI_API_KEY)
-│   └── legalbench_adapter.py     # Stub: HuggingFace LegalBench -> ground_truth shape
+│   └── synthetic_generator.py    # (a) LLM-generated extra cases  (b) LegalBench adapter helper
 ├── metrics/
 │   ├── retrieval.py              # Precision@k, Recall@k, MRR, MAP, nDCG, Hit-Rate, distractor rate
 │   ├── intake.py                 # JSON schema, case_type acc, legal_domain acc, federal_hooks F1, query keyword coverage
@@ -50,22 +49,22 @@ evaluation/
 
 ### 3. Drafter agent
 - Top-level + nested schema validity
-- **Citation faithfulness** — drafter only cites statutes the retriever returned (catches hallucinated statutes)
-- **Excerpt grounding** — drafter excerpt is an 8-gram substring of the retrieved excerpt (catches paraphrase-as-quote)
-- Draft format quality — no markdown, ALL-CAPS headings present, numbered paragraphs, placeholders used, no leaked disclaimer
-- Elements-analysis validity — checklist shape + `status` in {`met`, `unknown`, `not_met`} + cites only statutes from this output
-- **RAGAS-style** (no LLM judge — token-overlap proxy):
-  - Faithfulness — are the drafter's claims entailed by the retrieved statute excerpts?
-  - Answer Relevance — does the answer's `primary_issue` overlap with the user question?
-  - Context Precision — fraction of retrieved excerpts that are actually relevant
-  - Context Recall — fraction of drafter claims that *some* retrieved excerpt supports
+- **Citation faithfulness**, drafter only cites statutes the retriever returned (catches hallucinated statutes)
+- **Excerpt grounding**, drafter excerpt is an 8-gram substring of the retrieved excerpt (catches paraphrase-as-quote)
+- Draft format quality, no markdown, ALL-CAPS headings present, numbered paragraphs, placeholders used, no leaked disclaimer
+- Elements-analysis validity, checklist shape + `status` in {`met`, `unknown`, `not_met`} + cites only statutes from this output
+- **RAGAS-style** (no LLM judge, token-overlap proxy):
+  - Faithfulness, are the drafter's claims entailed by the retrieved statute excerpts?
+  - Answer Relevance, does the answer's `primary_issue` overlap with the user question?
+  - Context Precision, fraction of retrieved excerpts that are actually relevant
+  - Context Recall, fraction of drafter claims that *some* retrieved excerpt supports
 
 ### 4. Precedent agent
-- Trusted-source precision — URLs on whitelist (law.cornell.edu, justia, courtlistener, supremecourt.gov, etc.)
-- Opinion-page precision — title/citation/url contains `v.` or a reporter string (`U.S.`, `S.Ct.`, `F.3d`, `F.Supp.`)
-- Dedup correctness — no near-duplicate case names
-- No-guessing compliance — non-empty `court_year`/`citation` must be supported by visible text
-- Court-tier breakdown — share of SCOTUS / circuit / district / unknown
+- Trusted-source precision, URLs on whitelist (law.cornell.edu, justia, courtlistener, supremecourt.gov, etc.)
+- Opinion-page precision, title/citation/url contains `v.` or a reporter string (`U.S.`, `S.Ct.`, `F.3d`, `F.Supp.`)
+- Dedup correctness, no near-duplicate case names
+- No-guessing compliance, non-empty `court_year`/`citation` must be supported by visible text
+- Court-tier breakdown, share of SCOTUS / circuit / district / unknown
 - Schema validity
 
 ### 5. Cost / latency / tokens
@@ -89,22 +88,22 @@ Each runner writes a JSON report under `evaluation/results/`.
 Once you have `.env` populated and the USC chroma DB built:
 
 ```bash
-# retrieval only — no LLM cost, just chroma similarity_search
+# retrieval only, no LLM cost, just chroma similarity_search
 python -m evaluation.runners.run_retrieval_eval --top-k 10
 
-# intake agent only — ~$0.01/case on gpt-4o-mini
+# intake agent only, ~$0.01/case on gpt-4o-mini
 python -m evaluation.runners.run_agent_eval
 
-# full crew (intake + USC + precedent + drafter) — ~$0.05/case on gpt-4o-mini
+# full crew (intake + USC + precedent + drafter), ~$0.05/case on gpt-4o-mini
 python -m evaluation.runners.run_e2e_eval
 python -m evaluation.runners.run_e2e_eval --cases wire_fraud,bank_robbery   # subset
 ```
 
 ## Three ground-truth options (you asked for all three)
 
-1. **Hand-labeled** — `data/ground_truth.json`. 8 scenarios from `main.py` annotated with expected primary/secondary statutes, distractors, case_type, federal_hooks, legal_domain, and search-query keywords. This is the "good signal" benchmark.
-2. **Synthetic** — `data/synthetic_generator.py`. Run once with an OpenAI key to produce ~25–100 extra labeled cases for statistical-power runs. Lower-signal because the labels are LLM-written.
-3. **LegalBench** — `data/legalbench_adapter.py`. Stub explaining how to convert HuggingFace LegalBench tasks (`citation_prediction_classification` is the closest fit) into the same ground-truth shape so the existing metrics run unchanged.
+1. **Hand-labeled**, `data/ground_truth.json`. 8 scenarios from `main.py` annotated with expected primary/secondary statutes, distractors, case_type, federal_hooks, legal_domain, and search-query keywords. This is the "good signal" benchmark.
+2. **Synthetic**, `data/synthetic_generator.py`. Run once with an OpenAI key to produce ~25–100 extra labeled cases for statistical-power runs. Lower-signal because the labels are LLM-written.
+3. **LegalBench**, `data/synthetic_generator.py::convert_legalbench_row`. Helper that converts HuggingFace LegalBench task rows (`citation_prediction_classification` is the closest fit) into the same ground-truth shape so the existing metrics run unchanged.
 
 ## Caveats
 

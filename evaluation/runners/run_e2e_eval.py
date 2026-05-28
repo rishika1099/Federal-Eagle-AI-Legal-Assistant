@@ -44,12 +44,21 @@ def _extract_task_outputs(crew_result: Any) -> Dict[str, Any]:
 
 def real_e2e(case: Dict) -> Dict[str, Any]:
     from crew import legal_assistant_crew  # type: ignore
+    from tools.usc_sections_search_tool import repair_drafter_excerpts  # type: ignore
 
     t0 = time.perf_counter()
     result = legal_assistant_crew.kickoff(inputs={"user_input": case["scenario"]})
     duration = time.perf_counter() - t0
 
     parts = _extract_task_outputs(result)
+
+    # Deterministic post-processing: replace drafter paraphrased excerpts with verbatim
+    # substrings of upstream USC content. No extra LLM cost.
+    drafter = parts.get("drafter", {})
+    upstream_top = (parts.get("usc", {}) or {}).get("top_statutes", []) or []
+    if isinstance(drafter, dict) and upstream_top:
+        parts["drafter"] = repair_drafter_excerpts(drafter, upstream_top)
+
     rm = CaseRunMetrics(case_id=case["id"])
     # Without LLM callbacks wired in CrewAI we approximate tokens via tiktoken on prompt+output.
     for stage, key in [("case_intake", "intake"), ("usc_retrieval", "usc"), ("precedent_search", "precedent"), ("drafter", "drafter")]:

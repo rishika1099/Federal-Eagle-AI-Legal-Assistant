@@ -36,7 +36,7 @@ The system is solid on the parts it controls (retrieval ranking, citation faithf
 
 Retrieval is the strongest stage of the pipeline. Precision@1 means the correct primary statute is the very first hit for every one of the 8 cases. Recall is lower because we score against multiple acceptable statutes per case (primary + secondary) and only retrieve a small top-k, so the secondary citations often drop off the bottom.
 
-### Per-case top-5 retrieval
+### Per-case top-5 retrieval (standalone, plain-English queries only)
 
 | Case | Hit (top-5) | Best rank | Top-1 retrieved |
 |---|---|---|---|
@@ -48,6 +48,8 @@ Retrieval is the strongest stage of the pipeline. Precision@1 means the correct 
 | `money_laundering` | ✅ | 3 | `31 U.S.C. § 5342` |
 | `kidnapping` | ✅ | 1 | `18 U.S.C. § 1201` |
 | `tax_evasion` | ✅ | 1 | `26 U.S.C. § 7201` |
+
+**Why `drug_trafficking` misses in this table.** The standalone retrieval eval feeds the system the ground-truth keyword list directly (`controlled substance, drug trafficking, cocaine, interstate transport`). None of those contain a U.S. Code citation, so the direct-citation shortcut never fires. MiniLM then ranks 21 U.S.C. § 856 (*Maintaining drug-involved premises*) and § 351 (*Adulterated drugs*) ahead of § 841 because their section titles contain the topical words, while § 841's title is just "Prohibited acts A". In the full pipeline this case is NOT a miss: the intake agent emits `21 U.S.C. § 841` as one of its search queries, which triggers the direct-citation shortcut and lands § 841 at rank 1.
 
 ## Case Intake
 

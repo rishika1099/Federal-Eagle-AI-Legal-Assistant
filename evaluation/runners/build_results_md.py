@@ -259,9 +259,20 @@ def write_results_md(e2e: Dict, e2e_syn: Optional[Dict], retrieval: Optional[Dic
         "retrieve a small top-k, so the secondary citations often drop off the bottom.\n"
     )
     if retrieval and gt:
-        parts.append("### Per-case top-5 retrieval\n")
+        parts.append("### Per-case top-5 retrieval (standalone, plain-English queries only)\n")
         parts.append(per_case_table(retrieval, gt))
         parts.append("")
+        parts.append(
+            "**Why `drug_trafficking` misses in this table.** The standalone retrieval eval feeds "
+            "the system the ground-truth keyword list directly (`controlled substance, drug "
+            "trafficking, cocaine, interstate transport`). None of those contain a U.S. Code "
+            "citation, so the direct-citation shortcut never fires. MiniLM then ranks 21 U.S.C. "
+            "§ 856 (*Maintaining drug-involved premises*) and § 351 (*Adulterated drugs*) ahead "
+            "of § 841 because their section titles contain the topical words, while § 841's "
+            "title is just \"Prohibited acts A\". In the full pipeline this case is NOT a miss: "
+            "the intake agent emits `21 U.S.C. § 841` as one of its search queries, which "
+            "triggers the direct-citation shortcut and lands § 841 at rank 1.\n"
+        )
 
     parts.append("## Case Intake\n")
     if chart_paths.get("intake"):
@@ -359,7 +370,9 @@ def main():
     }
 
     md = write_results_md(e2e, e2e_syn, retrieval, intake, gt, charts)
-    out = RESULTS_DIR / "results.md"
+    # Named README.md so GitHub renders it automatically when someone opens
+    # the evaluation/results/ folder.
+    out = RESULTS_DIR / "README.md"
     out.write_text(md)
     print(f"Wrote {out}")
     for name, path in charts.items():

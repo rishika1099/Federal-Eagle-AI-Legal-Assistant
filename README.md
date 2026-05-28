@@ -237,7 +237,7 @@ Latest end-to-end numbers on gpt-4o-mini over 8 hand-labeled scenarios:
 | Precedent opinion-page precision | 0.75 |
 | Cost per case | ~$0.0018 |
 
-Baseline (before retrieval and prompt fixes) is preserved in `evaluation/results/*.baseline.json` for comparison.
+See `evaluation/results/*.json` for the most recent run.
 
 ---
 

@@ -6,29 +6,29 @@ All metrics are defined in [`evaluation/README.md`](../README.md).
 
 ## TL;DR
 
-The system is solid on the parts it controls (retrieval ranking, citation faithfulness, schema validity, draft format) and weaker on the parts that depend on external services (Tavily precedent results). Headline numbers: retrieval Precision@1 = **1.00**, drafter citation faithfulness = **1.00**, excerpt grounding = **1.00**, all at **$0.0018** per case and **77s** mean latency.
+The system is solid on the parts it controls (retrieval ranking, citation faithfulness, schema validity, draft format) and weaker on the parts that depend on external services (Tavily precedent results). Headline numbers: retrieval Precision@1 = **0.75**, drafter citation faithfulness = **0.88**, excerpt grounding = **0.88**, all at **$0.0019** per case and **104s** mean latency.
 
 ## Headline numbers
 
 | Stage | Metric | Value |
 |---|---|---|
-| Retrieval | Precision@1 | **1.00** |
-| Retrieval | Hit-Rate@3 | **1.00** |
-| Retrieval | MRR | **1.00** |
-| Retrieval | Recall@5 | **0.39** |
+| Retrieval | Precision@1 | **0.75** |
+| Retrieval | Hit-Rate@3 | **0.88** |
+| Retrieval | MRR | **0.79** |
+| Retrieval | Recall@5 | **0.37** |
 | Retrieval | Distractor rate | **0.00** |
-| Intake | Case-type accuracy | **1.00** |
+| Intake | Case-type accuracy | **0.88** |
 | Intake | Legal-domain accuracy | **1.00** |
-| Intake | Federal-hooks F1 | **0.42** |
-| Drafter | Schema validity | **1.00** |
-| Drafter | Citation faithfulness | **1.00** |
-| Drafter | Excerpt grounding | **1.00** |
-| Drafter | Draft-format quality | **1.00** |
+| Intake | Federal-hooks F1 | **0.45** |
+| Drafter | Schema validity | **0.88** |
+| Drafter | Citation faithfulness | **0.88** |
+| Drafter | Excerpt grounding | **0.88** |
+| Drafter | Draft-format quality | **0.95** |
 | Precedent | Trusted-source precision | **1.00** |
-| Precedent | Opinion-page precision | **0.56** |
-| Precedent | Cases with precedents | **3/8** |
-| Cost | Mean USD per case | **$0.0018** |
-| Latency | Mean seconds per case | **77s** |
+| Precedent | Opinion-page precision | **0.88** |
+| Precedent | Cases with precedents | **8/8** |
+| Cost | Mean USD per case | **$0.0019** |
+| Latency | Mean seconds per case | **104s** |
 
 ## Retrieval
 
@@ -71,7 +71,7 @@ Trusted-source precision is 1.00 (every returned URL is on the whitelist). Opini
 
 ![Cost and latency chart](charts/cost_latency.png)
 
-End-to-end cost is **$0.0018 per case** on gpt-4o-mini, total **$0.0141** over 8 cases. Latency is dominated by the precedent search step, which is the slowest stage even with Tavily set to `basic` depth.
+End-to-end cost is **$0.0019 per case** on gpt-4o-mini, total **$0.0154** over 8 cases. Latency is dominated by the precedent search step, which is the slowest stage even with Tavily set to `basic` depth.
 
 ## Known caveats
 

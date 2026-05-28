@@ -187,33 +187,6 @@ def _lexical_search(vectordb: Chroma, query: str, k: int) -> List:
     return out
 
 
-# Small static query expansion. For each canonical topic, we add variant phrases
-# that the section_title or content might use. Keeps recall up without changing
-# the embedding model.
-_QUERY_EXPANSIONS: Dict[str, List[str]] = {
-    "wire fraud": ["scheme to defraud", "interstate communications fraud"],
-    "drug trafficking": ["controlled substance", "manufacture distribute dispense", "import controlled substance"],
-    "money laundering": ["financial transaction proceeds", "structuring transactions", "currency transaction report"],
-    "identity theft": ["aggravated identity theft", "identification documents", "false identification"],
-    "kidnapping": ["interstate transportation victim", "ransom demand"],
-    "bank robbery": ["federally insured", "robbery extortion bank"],
-    "tax evasion": ["attempt evade defeat tax", "false return", "willful failure file"],
-    "computer fraud": ["unauthorized access", "protected computer", "exceed authorized access"],
-    "espionage": ["national defense information", "gathering transmitting defense"],
-}
-
-
-def _expand_queries(query: str) -> List[str]:
-    """Return [query, ...expansions]. Expansions are added only when a topical
-    keyword is detected, keeping noise low for off-topic queries."""
-    qs = [query]
-    lq = query.lower()
-    for keyword, variants in _QUERY_EXPANSIONS.items():
-        if keyword in lq:
-            qs.extend(variants)
-    return qs
-
-
 @tool("USC Sections Search Tool")
 def search_usc_sections(query: str) -> List[Dict]:
     """
@@ -221,8 +194,8 @@ def search_usc_sections(query: str) -> List[Dict]:
     Combines, in order, deduped by citation:
       (1) direct citation lookup if the query looks like 'NN U.S.C. § MM',
       (2) MiniLM semantic search on the original query,
-      (3) MiniLM semantic search on each topical expansion variant,
-      (4) lexical (token-overlap) fallback.
+      (3) lexical (token-overlap) fallback so statutes whose section_title
+          does not contain the topical word can still be surfaced.
     """
     query = (query or "").strip()
     if not query:
@@ -243,12 +216,11 @@ def search_usc_sections(query: str) -> List[Dict]:
     for d in _direct_citation_lookup(vectordb, query):
         _add(d)
 
-    # (2) + (3) Semantic search on the original query, then on each expansion
-    for q in _expand_queries(query):
-        for d in vectordb.similarity_search(q, k=_TOP_K):
-            _add(d)
+    # (2) Semantic search on original query
+    for d in vectordb.similarity_search(query, k=_TOP_K):
+        _add(d)
 
-    # (4) Lexical fallback
+    # (3) Lexical fallback
     for d in _lexical_search(vectordb, query, k=_LEXICAL_K):
         _add(d)
 

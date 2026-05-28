@@ -1,23 +1,23 @@
 {
   "retrieval": {
-    "precision@1": 1.0,
-    "recall@1": 0.24583333333333335,
-    "hit_rate@1": 1.0,
-    "ndcg@1": 1.0,
-    "precision@3": 0.5416666666666666,
-    "recall@3": 0.39375,
-    "hit_rate@3": 1.0,
-    "ndcg@3": 0.6532583499286291,
-    "precision@5": 0.325,
-    "recall@5": 0.39375,
-    "hit_rate@5": 1.0,
-    "ndcg@5": 0.5625868487488811,
-    "precision@10": 0.1625,
-    "recall@10": 0.39375,
-    "hit_rate@10": 1.0,
-    "ndcg@10": 0.5625868487488811,
-    "mrr": 1.0,
-    "map": 0.35277777777777775,
+    "precision@1": 0.75,
+    "recall@1": 0.17916666666666667,
+    "hit_rate@1": 0.75,
+    "ndcg@1": 0.7083333333333334,
+    "precision@3": 0.5,
+    "recall@3": 0.36875,
+    "hit_rate@3": 0.875,
+    "ndcg@3": 0.5317704071727689,
+    "precision@5": 0.3,
+    "recall@5": 0.36875,
+    "hit_rate@5": 0.875,
+    "ndcg@5": 0.4586519634294325,
+    "precision@10": 0.15,
+    "recall@10": 0.36875,
+    "hit_rate@10": 0.875,
+    "ndcg@10": 0.4586519634294325,
+    "mrr": 0.7916666666666666,
+    "map": 0.31666666666666665,
     "distractor_rate": 0.0,
     "n_cases": 8
   },
@@ -25,72 +25,72 @@
     "n_cases": 8,
     "json_validity": 1.0,
     "schema_score": 1.0,
-    "case_type_accuracy": 1.0,
+    "case_type_accuracy": 0.875,
     "legal_domain_accuracy": 1.0,
-    "federal_hooks_f1": 0.41785714285714287,
-    "federal_hooks_precision": 0.47916666666666663,
-    "federal_hooks_recall": 0.375,
-    "search_query_keyword_coverage": 0.56875
+    "federal_hooks_f1": 0.4529761904761905,
+    "federal_hooks_precision": 0.5833333333333334,
+    "federal_hooks_recall": 0.38541666666666663,
+    "search_query_keyword_coverage": 0.63125
   },
   "drafter": {
     "n_cases": 8,
-    "schema_score": 1.0,
-    "citation_faithfulness": 1.0,
+    "schema_score": 0.875,
+    "citation_faithfulness": 0.875,
     "hallucinated_citations_per_case": 0,
-    "excerpt_grounding": 1.0,
-    "draft_quality_score": 1.0,
-    "elements_block_validity": 1.0,
-    "elements_status_enum_share": 1.0,
-    "elements_citation_grounded": 1.0,
-    "ragas_faithfulness": 0.23809523809523808,
-    "ragas_answer_relevance": 0.14934174289645563,
-    "ragas_context_precision": 0.7916666666666666,
-    "ragas_context_recall": 0.08928571428571427
+    "excerpt_grounding": 0.875,
+    "draft_quality_score": 0.9479166666666666,
+    "elements_block_validity": 0.875,
+    "elements_status_enum_share": 0.875,
+    "elements_citation_grounded": 0.875,
+    "ragas_faithfulness": 0.22083333333333333,
+    "ragas_answer_relevance": 0.12854303296369976,
+    "ragas_context_precision": 0.625,
+    "ragas_context_recall": 0.0744047619047619
   },
   "precedent": {
     "n_cases": 8,
-    "cases_with_precedents": 3,
+    "cases_with_precedents": 8,
     "schema_validity": 1.0,
     "dedup_correct_share": 1.0,
-    "no_guessing_compliance": 0.9166666666666666,
+    "no_guessing_compliance": 0.875,
     "trusted_source_precision": 1.0,
-    "opinion_page_precision": 0.5555555555555556,
+    "opinion_page_precision": 0.875,
     "court_tier_share": {
-      "scotus": 0.625,
+      "scotus": 0.7333333333333333,
       "circuit": 0.0,
-      "district": 0.0,
-      "unknown": 0.375
+      "district": 0.13333333333333333,
+      "unknown": 0.13333333333333333
     }
   },
   "cost_latency": {
     "n_cases": 8,
     "duration_s": {
-      "mean": 77.16657203662544,
-      "median": 79.6431177710001,
-      "max": 101.91007037500094
+      "mean": 104.10106808837463,
+      "median": 101.79525952050062,
+      "max": 122.60526624999693
     },
     "cost_usd": {
-      "mean": 0.0017597812499999998,
-      "median": 0.0016961249999999997,
-      "total": 0.014078249999999997
+      "mean": 0.0019190625,
+      "median": 0.001911,
+      "total": 0.0153525
     },
     "tokens": {
-      "prompt_mean": 2346.375,
-      "completion_mean": 2346.375,
-      "total_prompt": 18771,
-      "total_completion": 18771
+      "prompt_mean": 2558.75,
+      "completion_mean": 2558.75,
+      "total_prompt": 20470,
+      "total_completion": 20470
     },
     "per_stage_duration_s_mean": {
-      "case_intake": 19.29164300915636,
-      "usc_retrieval": 19.29164300915636,
-      "precedent_search": 19.29164300915636,
-      "drafter": 19.29164300915636
+      "case_intake": 26.025267022093658,
+      "usc_retrieval": 26.025267022093658,
+      "precedent_search": 26.025267022093658,
+      "drafter": 26.025267022093658
     },
     "per_stage_cost_usd_mean": {
-      "case_intake": 0.0001816875,
-      "usc_retrieval": 0.00040453125,
-      "precedent_search": 9.6375e-05,
-      "drafter": 0.0010771874999999998
+      "case_intake": 0.00018243749999999998,
+      "usc_retrieval": 0.00042075,
+      "precedent_search": 0.00015937499999999998,
+      "drafter": 0.0011565
     }
   },
   "n_cases": 8,

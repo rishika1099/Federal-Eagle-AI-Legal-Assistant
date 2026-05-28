@@ -1,23 +1,23 @@
 {
   "retrieval": {
-    "precision@1": 0.875,
-    "recall@1": 0.22083333333333333,
-    "hit_rate@1": 0.875,
-    "ndcg@1": 0.8333333333333334,
-    "precision@3": 0.41666666666666663,
-    "recall@3": 0.3125,
-    "hit_rate@3": 0.875,
-    "ndcg@3": 0.5227900870831976,
-    "precision@5": 0.25,
-    "recall@5": 0.3125,
-    "hit_rate@5": 0.875,
-    "ndcg@5": 0.4587547832776227,
-    "precision@10": 0.125,
-    "recall@10": 0.3125,
-    "hit_rate@10": 0.875,
-    "ndcg@10": 0.4587547832776227,
-    "mrr": 0.875,
-    "map": 0.29027777777777775,
+    "precision@1": 1.0,
+    "recall@1": 0.24583333333333335,
+    "hit_rate@1": 1.0,
+    "ndcg@1": 1.0,
+    "precision@3": 0.75,
+    "recall@3": 0.5583333333333333,
+    "hit_rate@3": 1.0,
+    "ndcg@3": 0.810536201000832,
+    "precision@5": 0.45,
+    "recall@5": 0.5583333333333333,
+    "hit_rate@5": 1.0,
+    "ndcg@5": 0.7006544369755159,
+    "precision@10": 0.225,
+    "recall@10": 0.5583333333333333,
+    "hit_rate@10": 1.0,
+    "ndcg@10": 0.7006544369755159,
+    "mrr": 1.0,
+    "map": 0.5361111111111111,
     "distractor_rate": 0.0,
     "n_cases": 8
   },
@@ -30,67 +30,67 @@
     "federal_hooks_f1": 0.4363095238095238,
     "federal_hooks_precision": 0.5416666666666666,
     "federal_hooks_recall": 0.38541666666666663,
-    "search_query_keyword_coverage": 0.625
+    "search_query_keyword_coverage": 0.6
   },
   "drafter": {
     "n_cases": 8,
-    "schema_score": 0.875,
-    "citation_faithfulness": 0.875,
+    "schema_score": 1.0,
+    "citation_faithfulness": 1.0,
     "hallucinated_citations_per_case": 0,
-    "excerpt_grounding": 0.875,
-    "draft_quality_score": 0.9479166666666666,
-    "elements_block_validity": 0.875,
-    "elements_status_enum_share": 0.875,
-    "elements_citation_grounded": 0.875,
-    "ragas_faithfulness": 0.3238095238095238,
-    "ragas_answer_relevance": 0.13435698645207186,
-    "ragas_context_precision": 0.625,
-    "ragas_context_recall": 0.08928571428571427
+    "excerpt_grounding": 1.0,
+    "draft_quality_score": 1.0,
+    "elements_block_validity": 1.0,
+    "elements_status_enum_share": 1.0,
+    "elements_citation_grounded": 1.0,
+    "ragas_faithfulness": 0.21666666666666667,
+    "ragas_answer_relevance": 0.14966310890105144,
+    "ragas_context_precision": 0.9583333333333334,
+    "ragas_context_recall": 0.0744047619047619
   },
   "precedent": {
     "n_cases": 8,
-    "cases_with_precedents": 7,
+    "cases_with_precedents": 8,
     "schema_validity": 1.0,
     "dedup_correct_share": 1.0,
-    "no_guessing_compliance": 0.875,
+    "no_guessing_compliance": 1.0,
     "trusted_source_precision": 1.0,
-    "opinion_page_precision": 0.7380952380952381,
+    "opinion_page_precision": 0.8333333333333334,
     "court_tier_share": {
-      "scotus": 0.6,
+      "scotus": 0.7727272727272727,
       "circuit": 0.0,
-      "district": 0.06666666666666667,
-      "unknown": 0.3333333333333333
+      "district": 0.13636363636363635,
+      "unknown": 0.09090909090909091
     }
   },
   "cost_latency": {
     "n_cases": 8,
     "duration_s": {
-      "mean": 69.38525907812502,
-      "median": 67.50683402100003,
-      "max": 83.36996541600001
+      "mean": 72.22125924500017,
+      "median": 63.658046063000256,
+      "max": 119.59894600000007
     },
     "cost_usd": {
-      "mean": 0.001947,
-      "median": 0.00190125,
-      "total": 0.015576
+      "mean": 0.0019853437499999997,
+      "median": 0.00198075,
+      "total": 0.015882749999999998
     },
     "tokens": {
-      "prompt_mean": 2596,
-      "completion_mean": 2596,
-      "total_prompt": 20768,
-      "total_completion": 20768
+      "prompt_mean": 2647.125,
+      "completion_mean": 2647.125,
+      "total_prompt": 21177,
+      "total_completion": 21177
     },
     "per_stage_duration_s_mean": {
-      "case_intake": 17.346314769531254,
-      "usc_retrieval": 17.346314769531254,
-      "precedent_search": 17.346314769531254,
-      "drafter": 17.346314769531254
+      "case_intake": 18.055314811250042,
+      "usc_retrieval": 18.055314811250042,
+      "precedent_search": 18.055314811250042,
+      "drafter": 18.055314811250042
     },
     "per_stage_cost_usd_mean": {
       "case_intake": 0.00017934374999999998,
-      "usc_retrieval": 0.00042759375,
-      "precedent_search": 0.00016434375,
-      "drafter": 0.00117571875
+      "usc_retrieval": 0.0004025625,
+      "precedent_search": 0.00022143749999999998,
+      "drafter": 0.0011819999999999999
     }
   },
   "n_cases": 8,

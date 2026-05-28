@@ -23,6 +23,63 @@ _CITATION_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Common-name phrase -> canonical citation(s).  When the user query contains
+# one of these phrases (case-insensitive substring), the corresponding
+# citation(s) are prepended to the merged results via direct-metadata lookup.
+# This is the "hard route" for statutes whose section_title is generic
+# (e.g. 21 U.S.C. § 841 = "Prohibited acts A"); without this, MiniLM
+# ranks more-topically-titled but less-central sections above them.
+_QUERY_TO_CITATIONS: dict[str, list[str]] = {
+    "drug trafficking": ["21 U.S.C. § 841", "21 U.S.C. § 846"],
+    "narcotics trafficking": ["21 U.S.C. § 841", "21 U.S.C. § 846"],
+    "controlled substance": ["21 U.S.C. § 841", "21 U.S.C. § 846"],
+    "drug conspiracy": ["21 U.S.C. § 846"],
+    "drug importation": ["21 U.S.C. § 952", "21 U.S.C. § 960"],
+    "wire fraud": ["18 U.S.C. § 1343"],
+    "mail fraud": ["18 U.S.C. § 1341"],
+    "bank fraud": ["18 U.S.C. § 1344"],
+    "bank robbery": ["18 U.S.C. § 2113"],
+    "identity theft": ["18 U.S.C. § 1028", "18 U.S.C. § 1028A"],
+    "aggravated identity theft": ["18 U.S.C. § 1028A"],
+    "computer fraud": ["18 U.S.C. § 1030"],
+    "cfaa": ["18 U.S.C. § 1030"],
+    "computer fraud and abuse act": ["18 U.S.C. § 1030"],
+    "kidnapping": ["18 U.S.C. § 1201"],
+    "ransom": ["18 U.S.C. § 1202", "18 U.S.C. § 875"],
+    "money laundering": ["18 U.S.C. § 1956", "18 U.S.C. § 1957"],
+    "structuring": ["31 U.S.C. § 5324"],
+    "currency transaction report": ["31 U.S.C. § 5313"],
+    "tax evasion": ["26 U.S.C. § 7201"],
+    "false tax return": ["26 U.S.C. § 7206"],
+    "employment tax": ["26 U.S.C. § 7202"],
+    "espionage": ["18 U.S.C. § 793", "18 U.S.C. § 794"],
+    "classified information": ["18 U.S.C. § 798"],
+    "securities fraud": ["15 U.S.C. § 78j"],
+    "hobbs act": ["18 U.S.C. § 1951"],
+}
+
+
+def _alias_matched_citations(query: str) -> list[str]:
+    """Return the citations (in order) for any alias phrase contained in the query."""
+    q = (query or "").lower()
+    out: list[str] = []
+    seen: set[str] = set()
+    for phrase, cites in _QUERY_TO_CITATIONS.items():
+        if phrase in q:
+            for c in cites:
+                if c not in seen:
+                    seen.add(c)
+                    out.append(c)
+    return out
+
+
+def _lookup_by_citation_string(vectordb, citation: str) -> list:
+    """Fetch the doc for a specific 'NN U.S.C. § MM' string."""
+    m = _CITATION_RE.search(citation)
+    if not m:
+        return []
+    return _direct_citation_lookup(vectordb, f"{m.group(1)} U.S.C. § {m.group(2)}")
+
 
 def _normalize_citation(citation: str) -> str:
     m = _CITATION_RE.search(citation or "")
@@ -212,15 +269,22 @@ def search_usc_sections(query: str) -> List[Dict]:
             seen_citations.add(cite)
             merged.append(doc)
 
-    # (1) Direct citation lookup, highest priority
+    # (1) Direct citation lookup if the query contains a 'NN U.S.C. § MM' token
     for d in _direct_citation_lookup(vectordb, query):
         _add(d)
 
-    # (2) Semantic search on original query
+    # (2) Alias-based hard route: well-known query phrases pin specific
+    # statutes to the top, regardless of how MiniLM scores them. Covers
+    # the case where a statute's section_title is generic (e.g. § 841).
+    for cite in _alias_matched_citations(query):
+        for d in _lookup_by_citation_string(vectordb, cite):
+            _add(d)
+
+    # (3) Semantic search on original query
     for d in vectordb.similarity_search(query, k=_TOP_K):
         _add(d)
 
-    # (3) Lexical fallback
+    # (4) Lexical fallback
     for d in _lexical_search(vectordb, query, k=_LEXICAL_K):
         _add(d)
 

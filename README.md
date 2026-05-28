@@ -226,16 +226,18 @@ Latest end-to-end numbers on gpt-4o-mini over 8 hand-labeled scenarios:
 | Retrieval Precision@1 | 1.00 |
 | Retrieval MRR | 1.00 |
 | Retrieval Hit-Rate@3 | 1.00 |
-| Retrieval Recall@5 | 0.46 |
+| Retrieval Recall@5 | 0.56 |
 | Case-type classification | 1.00 |
 | Legal-domain classification | 1.00 |
-| Federal-hooks F1 | 0.34 |
+| Federal-hooks F1 | 0.44 |
 | Drafter schema validity | 1.00 |
 | Drafter citation faithfulness (no hallucinated statutes) | 1.00 |
+| Drafter excerpt grounding | 1.00 |
 | Drafter draft-format quality | 1.00 |
 | Precedent trusted-source precision | 1.00 |
-| Precedent opinion-page precision | 0.75 |
-| Cost per case | ~$0.0018 |
+| Precedent opinion-page precision | 0.83 |
+| Cases with precedents | 8/8 |
+| Cost per case | ~$0.0020 |
 
 See `evaluation/results/*.json` for the most recent run.
 
